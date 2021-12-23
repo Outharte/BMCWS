@@ -26,6 +26,8 @@ with open('SET.csv', 'r') as csv_file:
     for line in reader:
         data.extend(line)
 
+puzz = data[37]
+target = data[0] + data[1]
 subpuzz0 = data[4]
 subpuzz1 = data[5]
 subpuzz2 = data[6]
@@ -51,6 +53,9 @@ while True:
                 if text.upper() == data[41]:
                     print('success 3')
                     subpuzz3 = data[41]
+                if text.upper() == target.upper():
+                    print('success ')
+                    puzz = target
                 text=''
             elif event.key == pg.K_BACKSPACE:
                 text = text[:-1]
@@ -60,7 +65,7 @@ while True:
 
     input_box = pg.Rect(wWidth / 2, wHeight - 100, 140, 32)
 
-    text0 = basicFont.render(data[0]+data[1], True, BLACK, WHITE)
+    text0 = basicFont.render(puzz, True, BLACK, WHITE)
     text0Rect = text0.get_rect()
     text0Rect.centerx = screen.get_rect().centerx
     text0Rect.centery = screen.get_rect().centery
@@ -87,7 +92,8 @@ while True:
 
     screen.fill(WHITE)
 
-    screen.blit(text0, text0Rect)
+    if subpuzz0 == data[38] and subpuzz1 == data[39] and subpuzz2 == data[40] and subpuzz3 == data[41]:
+        screen.blit(text0, text0Rect)
     screen.blit(text1, text1Rect)
     screen.blit(text2, text2Rect)
     screen.blit(text3, text3Rect)
