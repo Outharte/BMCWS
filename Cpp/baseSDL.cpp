@@ -14,7 +14,7 @@ SDL_Window* gWindow = NULL;
 
 SDL_Surface* gScreenSurface = NULL;
 
-SDL_Surface* gHelloWorld = NULL;
+SDL_Surface* gXOut = NULL;
 
 
 bool init()
@@ -49,10 +49,10 @@ bool loadMedia()
 
 	bool success = true;
 
-	gHelloWorld = SDL_LoadBMP( "./test_image.bmp" );
-	if( gHelloWorld == NULL )
+	gXOut = SDL_LoadBMP( "./x.bmp" );
+	if( gXOut == NULL )
 	{
-		printf( "Unable to load image %s! SDL Error: %s\n","02_getting_an_image_on_the_screen/hello_world.bmp", SDL_GetError() );
+		printf( "Unable to load image %s! SDL Error: %s\n","./x.bmp", SDL_GetError() );
 		success = false;
 	}
 
@@ -63,8 +63,8 @@ bool loadMedia()
 void close()
 {
 
-	SDL_FreeSurface( gHelloWorld );
-	gHelloWorld = NULL;
+	SDL_FreeSurface( gXOut );
+	gXOut = NULL;
 
 	SDL_DestroyWindow( gWindow );
 	gWindow = NULL;
@@ -87,11 +87,25 @@ int main( int argc, char* args[] )
 		}
 		else
 		{
-			SDL_BlitSurface( gHelloWorld, NULL, gScreenSurface, NULL );
+			bool quit = false;
 
-			SDL_UpdateWindowSurface( gWindow );
+			SDL_Event e;
 
-			SDL_Delay( 2000 );
+			while( !quit )
+			{
+				while( SDL_PollEvent( &e ) != 0 )
+				{
+					if( e.type == SDL_QUIT )
+					{
+						quit = true;
+					}
+				}
+
+				SDL_BlitSurface( gXOut, NULL, gScreenSurface, NULL );
+
+				SDL_UpdateWindowSurface( gWindow );
+
+			}
 		}
 	}
 
